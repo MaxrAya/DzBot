@@ -1,0 +1,22 @@
+[Unit]
+Description=Homework Telegram Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# ЗАМЕНИ на реального пользователя на сервере (того, под кем сделан деплой)
+User=REPLACE_USER
+WorkingDirectory=/opt/homework-bot
+EnvironmentFile=/opt/homework-bot/.env
+ExecStart=/opt/homework-bot/venv/bin/python3 /opt/homework-bot/bot.py
+Restart=on-failure
+RestartSec=5
+
+# Небольшая защита: не даём процессу читать/писать что попало вне своей папки
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/homework-bot
+
+[Install]
+WantedBy=multi-user.target
